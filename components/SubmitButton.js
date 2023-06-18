@@ -1,10 +1,11 @@
-import { Pressable, Text, StyleSheet } from "react-native";
+import { Pressable, Text, StyleSheet, TouchableHighlight, TouchableOpacity } from "react-native";
 
-export const SubmitButton = ({ text }) => {
+export const SubmitButton = ({ text, onPress }) => {
+
   return (
-    <Pressable style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={onPress}>
       <Text style={styles.buttonTitle}>{text}</Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
@@ -15,6 +16,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF6C00",
     borderRadius: 100,
     alignItems: "center",
+    marginTop: 43,
   },
   buttonTitle: {
     fontSize: 16,
