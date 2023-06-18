@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF6C00",
     borderRadius: 100,
     alignItems: "center",
-    marginTop: 43,
+    // marginTop: 43,
   },
   buttonTitle: {
     fontSize: 16,

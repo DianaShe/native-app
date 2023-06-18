@@ -56,7 +56,7 @@ export const LoginForm = () => {
       <View>
       <TextInput
         style={
-          [[styles.input, { marginBottom: 0 }], isPasswordFocused && styles.focusedInput ]
+          [[styles.input, { marginBottom: 43 }], isPasswordFocused && styles.focusedInput ]
         }
         secureTextEntry
         placeholder="Пароль"
