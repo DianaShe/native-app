@@ -66,7 +66,6 @@ export const LoginForm = () => {
         onChangeText={setPassword}
         value={password}
       />
-      {/* <View> */}
         <Pressable style={styles.showButton}>
           <Text style={styles.showText}>Показати</Text>
         </Pressable>
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    height: "55%",
+    height: "60%",
     paddingLeft: 16,
     paddingRight: 16,
     marginTop: "auto",
@@ -106,6 +105,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   focusedInput: {
+    paddingLeft:16,
     borderWidth: 1,
     borderColor: "#FF6C00",
     borderRadius: 8,

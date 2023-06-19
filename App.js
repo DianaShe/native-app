@@ -16,10 +16,12 @@ export default function App() {
   }
 
   return (
-    // <PostsScreen/>
-  //  <LoginScreen/>
-    <RegistrationScreen/>
-  );
+    <> 
+    {/* <PostsScreen/> */}
+    <LoginScreen/>
+    {/* <RegistrationScreen/> */}
+     </>
+  )
 }
 
 

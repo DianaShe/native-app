@@ -31,13 +31,14 @@ export const RegistrationForm = () => {
       <View style={styles.formWrapper}>
         <Avatar />
         <Text style={styles.formTitle}>Реєстрація</Text>
-        <TextInput placeholder="Логін" style={[styles.input, isLoginFocused && styles.focusedInput]} 
+        <TextInput placeholder="Логін" style={isLoginFocused ? [styles.input, styles.focusedInput] : styles.input} 
           inputMode="text" onFocus={() => setIsLoginFocused(true)}
           onBlur={() => setIsLoginFocused(false)}
           onChangeText={setLogin}
-          value={login}/>
+          value={login}
+          />
         <TextInput
-          style={[styles.input, isEmailFocused && styles.focusedInput]} 
+          style={isEmailFocused ? [styles.input, styles.focusedInput] : styles.input} 
           placeholder="Адреса електронної пошти"
           inputMode="email"
           onFocus={() => setIsEmailFocused(true)}
@@ -47,7 +48,7 @@ export const RegistrationForm = () => {
         />
         <View>
         <TextInput
-          style={[[styles.input, {marginBottom: 43}], isPasswordFocused && styles.focusedInput]}
+          style={isPasswordFocused ? [ styles.focusedInput, styles.input, {marginBottom: 43}] : [styles.input, {marginBottom: 43}]}
           secureTextEntry
           placeholder="Пароль"
           inputMode="text"
@@ -100,11 +101,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   focusedInput: {
+    paddingLeft: 16,
     borderWidth: 1,
     borderColor: '#FF6C00',
     borderRadius: 8,
     borderStyle: 'solid',
-    paddingHorizontal: 16,
   },
   showButton: {
     position: "absolute",
@@ -116,3 +117,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
