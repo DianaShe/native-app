@@ -1,4 +1,4 @@
-import { ImageBackground, Pressable, StyleSheet, TextInput, View } from "react-native"
+import { ImageBackground, Pressable, StyleSheet, TextInput, View, Text } from "react-native"
 import { Header } from "../components/Header"
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from "react";
@@ -14,12 +14,12 @@ export const CreatePostsScreen =() => {
                 </View>
                 
                 <Pressable style={styles.iconContainer}>
-                    <MaterialIcons name="photo-camera" size={24} color="#BDBDBD" />
+                    <MaterialIcons style={styles.icon} name="photo-camera" size={24} color="#BDBDBD" />
                 </Pressable>
                 <Text>{isPhotoLoaded ? 'Редагувати фото' : 'Завантажте фото'}</Text>
             </View>
-            <TextInput/>
-            <TextInput/>
+            <TextInput placeholder="Назва"/>
+            <TextInput placeholder="Місцевість"/>
 
         </View>
     )
@@ -35,9 +35,20 @@ const styles = StyleSheet.create({
         borderColor: "#E8E8E8",
     },
     iconContainer: {
-        width:60,
+        position: 'absolute',
+        top: 90,
+        right: 142,
+        width: 60,
         height: 60,
         backgroundColor: "#FFF",
         borderRadius: 50,
+    },
+    icon: {
+        alignSelf: 'center',
+        
+    },
+    input: {
+        height: 50,
+
     }
 })

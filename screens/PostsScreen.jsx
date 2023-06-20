@@ -32,7 +32,7 @@ export const PostsScreen = () => {
       </View>
       <FlatList>
         <View>
-          
+
         </View>
       </FlatList>
       <View style={styles.footerWrapper}>
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
   // },
   userWrapper: {
     flexDirection: 'row',
-    marginTop: 32,
   },
   userPhoto: {
     marginLeft: 16,

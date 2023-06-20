@@ -20,8 +20,8 @@ export default function App() {
     <> 
     {/* <PostsScreen/> */}
     {/* <LoginScreen/> */}
-    <RegistrationScreen/>
-    {/* <CreatePostsScreen/> */}
+    {/* <RegistrationScreen/> */}
+    <CreatePostsScreen/>
      </>
   )
 }

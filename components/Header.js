@@ -14,6 +14,7 @@ export const Header = ({title, icon}) => {
 const styles = StyleSheet.create({
     header: {
         marginTop: 55,
+        marginBottom: 32,
         borderBottomColor: "#BDBDBD",
         borderBottomWidth: 1,
       },
