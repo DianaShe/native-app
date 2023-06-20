@@ -2,6 +2,7 @@ import { useFonts, Roboto_400Regular, Roboto_500Medium, Roboto_700Bold } from '@
 import { RegistrationScreen } from './screens/RegistrationScreen';
 import { LoginScreen } from './screens/LoginScreen';
 import { PostsScreen } from './screens/PostsScreen';
+import { CreatePostsScreen } from './screens/CreatePostsScreen';
 
 
 export default function App() {
@@ -18,8 +19,9 @@ export default function App() {
   return (
     <> 
     {/* <PostsScreen/> */}
-    <LoginScreen/>
-    {/* <RegistrationScreen/> */}
+    {/* <LoginScreen/> */}
+    <RegistrationScreen/>
+    {/* <CreatePostsScreen/> */}
      </>
   )
 }

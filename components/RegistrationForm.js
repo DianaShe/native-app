@@ -18,6 +18,7 @@ export const RegistrationForm = () => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleRegister = () => {
     console.log({login, email, password})
@@ -49,7 +50,7 @@ export const RegistrationForm = () => {
         <View>
         <TextInput
           style={isPasswordFocused ? [ styles.focusedInput, styles.input, {marginBottom: 43}] : [styles.input, {marginBottom: 43}]}
-          secureTextEntry
+          secureTextEntry={!showPassword}
           placeholder="Пароль"
           inputMode="text"
           onFocus={() => setIsPasswordFocused(true)}
@@ -59,7 +60,7 @@ export const RegistrationForm = () => {
         />
         
           <Pressable style={styles.showButton}>
-            <Text style={styles.showText}>Показати</Text>
+            <Text style={styles.showText} onPress={() => setShowPassword(!showPassword)}>Показати</Text>
           </Pressable>
         </View>
         <SubmitButton text="Зареєструватися" onPress={handleRegister}/>

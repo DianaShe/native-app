@@ -8,6 +8,7 @@ export const LoginForm = () => {
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleLogIn = () => {
     console.log({email, password})
@@ -58,7 +59,7 @@ export const LoginForm = () => {
         style={
           [[styles.input, { marginBottom: 43 }], isPasswordFocused && styles.focusedInput ]
         }
-        secureTextEntry
+        secureTextEntry={!showPassword}
         placeholder="Пароль"
         inputMode="text"
         onFocus={() => handleFocus('password')}
@@ -66,7 +67,7 @@ export const LoginForm = () => {
         onChangeText={setPassword}
         value={password}
       />
-        <Pressable style={styles.showButton}>
+        <Pressable style={styles.showButton} onPress={() => setShowPassword(!showPassword)}>
           <Text style={styles.showText}>Показати</Text>
         </Pressable>
       </View>

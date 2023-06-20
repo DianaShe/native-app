@@ -11,16 +11,18 @@ import {
 import { MaterialIcons, Feather, AntDesign } from "@expo/vector-icons";
 import userPhoto from '../assets/images/User_Photo.jpg'
 import { SubmitButton } from "../components/SubmitButton";
+import { Header } from "../components/Header";
 
 export const PostsScreen = () => {
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.header}>
+      <Header title='Публікації' icon={<MaterialIcons name="logout" size={24} color="#BDBDBD" />}/>
+      {/* <View style={styles.header}>
         <Text style={styles.title}>Публікації</Text>
         <Pressable style={styles.icon}>
           <MaterialIcons name="logout" size={24} color="#BDBDBD" />
         </Pressable>
-      </View>
+      </View> */}
       <View style={styles.userWrapper}>
         <Image style={styles.userPhoto} source={userPhoto}></Image>
         <View >
@@ -28,6 +30,11 @@ export const PostsScreen = () => {
             <Text style={styles.userMail}>Email</Text>
         </View>
       </View>
+      <FlatList>
+        <View>
+          
+        </View>
+      </FlatList>
       <View style={styles.footerWrapper}>
         <AntDesign name="appstore-o" size={40} color="#BDBDBD" />   
         <SubmitButton text={<AntDesign name="plus" size={20} color="#FFFfff" />}/>
@@ -38,22 +45,22 @@ export const PostsScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  header: {
-    marginTop: 55,
-    borderBottomColor: "#BDBDBD",
-    borderBottomWidth: 1,
-  },
-  title: {
-    fontSize: 17,
-    fontFamily: "Roboto_500Medium",
-    paddingVertical: 11,
-    alignSelf: "center",
-  },
-  icon: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-  },
+  // header: {
+  //   marginTop: 55,
+  //   borderBottomColor: "#BDBDBD",
+  //   borderBottomWidth: 1,
+  // },
+  // title: {
+  //   fontSize: 17,
+  //   fontFamily: "Roboto_500Medium",
+  //   paddingVertical: 11,
+  //   alignSelf: "center",
+  // },
+  // icon: {
+  //   position: "absolute",
+  //   top: 10,
+  //   right: 10,
+  // },
   userWrapper: {
     flexDirection: 'row',
     marginTop: 32,
