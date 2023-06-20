@@ -103,18 +103,26 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     height: 50,
     fontSize: 16,
+    backgroundColor: "#F6F6F6",
+		borderColor: "#E8E8E8",
+		borderWidth: 1,
+		borderRadius: 8,
+    
   },
   focusedInput: {
-    paddingLeft:16,
+    paddingLeft: 16,
     borderWidth: 1,
-    borderColor: "#FF6C00",
+    borderColor: '#FF6C00',
     borderRadius: 8,
-    borderStyle: "solid",
-    
+    borderStyle: 'solid',
+    backgroundColor: "#FFF",
+    shadowColor:'rgba(0, 0, 0, 0.25)',
+    shadowRadius: 4,
+    shadowOffset: {width: 0, height: 4},
   },
   showButton: {
     position: "absolute",
-    top: 10,
+    top: 15,
     right: 16,
   },
   showText: {

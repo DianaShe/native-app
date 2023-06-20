@@ -99,6 +99,10 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     height: 50,
     fontSize: 16,
+    backgroundColor: "#F6F6F6",
+		borderColor: "#E8E8E8",
+		borderWidth: 1,
+		borderRadius: 8,
   },
   focusedInput: {
     paddingLeft: 16,
@@ -106,10 +110,11 @@ const styles = StyleSheet.create({
     borderColor: '#FF6C00',
     borderRadius: 8,
     borderStyle: 'solid',
+    backgroundColor: "#FFF",
   },
   showButton: {
     position: "absolute",
-    top: 10,
+    top: 15,
     right:16,
   },
   showText: {
