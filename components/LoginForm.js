@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   showButton: {
     position: "absolute",
-    top: 15,
+    top: 12,
     right: 16,
   },
   showText: {
