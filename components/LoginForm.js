@@ -2,6 +2,7 @@ import { TextInput, View, StyleSheet, Pressable, Text } from "react-native";
 import { SubmitButton } from "./SubmitButton";
 import { IsAccount } from "./IsAccount";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export const LoginForm = () => {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
@@ -10,10 +11,13 @@ export const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false)
 
+  const navigation = useNavigation();
+
   const handleLogIn = () => {
     console.log({email, password})
     setEmail('')
     setPassword('')
+    navigation.navigate('Home')
   }
 
   const handleFocus = (name) => {
@@ -72,7 +76,7 @@ export const LoginForm = () => {
         </Pressable>
       </View>
       <SubmitButton text="Увійти" onPress = {handleLogIn}/>
-      <IsAccount text="Немає аккаунту? " underlinedText="Зареєструватися" />
+      <IsAccount text="Немає аккаунту? " underlinedText="Зареєструватися" onPress={() => navigation.navigate("Registration")}/>
     </View>
   );
 };

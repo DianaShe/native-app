@@ -10,6 +10,7 @@ import { SubmitButton } from "./SubmitButton";
 import { Avatar } from "./Avatar";
 import { IsAccount } from "./IsAccount";
 import { useState } from "react";
+import { useNavigation } from '@react-navigation/native';
 
 export const RegistrationForm = () => {
   const [isLoginFocused, setIsLoginFocused] = useState(false)
@@ -26,6 +27,8 @@ export const RegistrationForm = () => {
     setEmail('')
     setPassword('')
   }
+
+  const navigation = useNavigation();
 
   return (
     
@@ -63,8 +66,8 @@ export const RegistrationForm = () => {
             <Text style={styles.showText} onPress={() => setShowPassword(!showPassword)}>Показати</Text>
           </Pressable>
         </View>
-        <SubmitButton text="Зареєструватися" onPress={handleRegister}/>
-        <IsAccount text={"Вже є акаунт? Увійти"} />
+        <SubmitButton text="Зареєструватися" onPress={handleRegister} disabled={false}/>
+        <IsAccount text={"Вже є акаунт? Увійти"} onPress={() => navigation.navigate("Login")}/>
       </View>
     
       
