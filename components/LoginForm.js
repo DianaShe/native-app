@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
   formTitle: {
     marginTop: 32,
     marginBottom: 32,
-    fontWeight: 500,
     fontFamily: "Roboto_500Medium",
     fontSize: 30,
     color: "#212121",

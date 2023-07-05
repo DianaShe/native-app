@@ -15,24 +15,28 @@ import {
   MaterialCommunityIcons,
   AntDesign,
 } from "@expo/vector-icons";
+import examplePhoto from '../assets/images/Rectangle23.jpg'
 import { useState } from "react";
 import { SubmitButton } from "../components/SubmitButton";
 import { useNavigation } from "@react-navigation/native";
 
 export const CreatePostsScreen = () => {
-  const [isPhotoLoaded, setIsPhotoLoaded] = useState(false);
+  const [isPhotoLoaded, setIsPhotoLoaded] = useState(true);
   const [isPost, setIsPost] = useState(false);
   const navigation = useNavigation()
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
-        style={{ flex: 1, paddingHorizontal: 16, backgroundColor: 'fff' }}
+        style={{ flex: 1, paddingHorizontal: 16, backgroundColor: '#fff' }}
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
         <View style={styles.wrapper}>
+          
           <View style={styles.imageContainer}>
-            {isPhotoLoaded && <ImageBackground />}
+            {isPhotoLoaded && <ImageBackground source={examplePhoto} 
+            style={styles.image}
+            />}
           </View>
 
           <Pressable style={styles.iconContainer}>
@@ -87,6 +91,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E8E8E8",
   },
+  image: {
+    width: "100%", 
+    height: "100%",
+    resizeMode: 'cover',
+    overflow: 'hidden',
+    borderRadius: 8,
+  },
   wrapper: {
     marginVertical: 32,
   },
@@ -96,13 +107,15 @@ const styles = StyleSheet.create({
     right: 142,
     width: 60,
     height: 60,
-    backgroundColor: "#FFF",
-    borderRadius: 50,
+    backgroundColor: "(rgba(255, 255, 255, 0.3))",
+    borderRadius: 60,
+    
   },
   icon: {
     alignSelf: "center",
     marginBottom: "auto",
     marginTop: "auto",
+    
   },
   label: {
     color: "#BDBDBD",

@@ -6,11 +6,12 @@ import {
   Image
 } from "react-native";
 import userPhoto from '../assets/images/User_Photo.jpg'
+import { Card } from "../components/Card";
 
 export const PostsScreen = () => {
  
   return (
-    <View style={{ flex: 1, backgroundColor: "fff"}}>
+    <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: 16,}}>
       <View style={styles.userWrapper}>
         <Image style={styles.userPhoto} source={userPhoto}></Image>
         <View >
@@ -18,10 +19,9 @@ export const PostsScreen = () => {
             <Text style={styles.userMail}>Email</Text>
         </View>
       </View>
-      <FlatList>
-        <View>
-
-        </View>
+      <FlatList
+      data={[{ title: 'Ліс', location: 'here', comments: 6 }]}
+      renderItem={({item}) => <Card {...item}/>}>
       </FlatList>
     </View>
   );
@@ -31,9 +31,11 @@ const styles = StyleSheet.create({
   userWrapper: {
     flexDirection: 'row',
     marginTop: 32,
+    alignItems: 'center',
+    marginBottom: 32
   },
   userPhoto: {
-    marginLeft: 16,
+    
     marginRight: 8,
     borderRadius: 16,
     height: 60,

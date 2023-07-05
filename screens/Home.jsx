@@ -28,7 +28,6 @@ function Home() {
           }
           return <AntDesign name={iconName} size={size} color={color} />;
         },
-        sceneContainerStyle: { backgroundColor: "fff" },
         tabBarActiveBackgroundColor: "#FF6C00",
         tabBarShowLabel: false,
         tabBarItemStyle: {
@@ -62,7 +61,8 @@ function Home() {
         options={{
           title: "Публікації",
           headerRight: () => (
-            <MaterialIcons name="logout" size={24} color="#BDBDBD" style={{marginRight: 10}}/>
+            <MaterialIcons name="logout" size={24} color="#BDBDBD" style={{marginRight: 10}}
+            onPress={() => navigation.navigate('Login')}/>
           ),
         }}
       />
@@ -83,7 +83,7 @@ function Home() {
           tabBarStyle: { display: "none" },
         }}
       />
-      <Tabs.Screen name="Profile" component={Profile} options={{headerShown: false, tabBarStyle: { display: "none" }}}/>
+      <Tabs.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
     </Tabs.Navigator>
   );
 }
