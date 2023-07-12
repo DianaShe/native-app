@@ -13,6 +13,7 @@ import { PostsScreen } from "./screens/PostsScreen";
 import { CreatePostsScreen } from "./screens/CreatePostsScreen";
 import Home from "./screens/Home";
 import MapScreen from "./screens/MapScreen";
+import { CommentsScreen } from "./screens/CommentsScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -35,6 +36,7 @@ export default function App() {
         <MainStack.Screen name="Login" component={LoginScreen} options={{headerShown: false}} />
         <MainStack.Screen name="Home" component={Home} options={{headerShown: false}}/>
         <MainStack.Screen name="Map" component={MapScreen} options={{headerShown: false}}/>
+        <MainStack.Screen name="Comments" component={CommentsScreen} options={{title: "Коментарі", headerTitleAlign: 'center'}}/>
       </MainStack.Navigator>
     </NavigationContainer>
   );
