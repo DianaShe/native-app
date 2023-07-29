@@ -7,8 +7,23 @@ import {
 } from "react-native";
 import userPhoto from '../assets/images/User_Photo.jpg'
 import { Card } from "../components/Card";
+import { useRoute } from "@react-navigation/native";
+import { useState, useEffect } from "react";
 
 export const PostsScreen = () => {
+  const [posts, setPosts] = useState([])
+  const route = useRoute()
+
+  useEffect(()=> {
+    console.log(route.params)
+    if (route.params) {
+      console.log(route.params.location)
+      const {params: {photoUri, title, location, locationTitle}} = route
+    setPosts([...posts, {photoUri, title, location, locationTitle}])
+    }
+  }, [route.params])
+
+  
  
   return (
     <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: 16,}}>
@@ -20,7 +35,7 @@ export const PostsScreen = () => {
         </View>
       </View>
       <FlatList
-      data={[{ title: 'Ліс', location: 'here', comments: 6 }]}
+      data={posts}
       renderItem={({item}) => <Card {...item}/>}>
       </FlatList>
     </View>

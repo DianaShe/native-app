@@ -1,15 +1,15 @@
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
-import examplePhoto from "../assets/images/Rectangle23.jpg";
 import { useNavigation } from "@react-navigation/native";
 
 
 
 export const Card = ({
-  photo = examplePhoto,
+  photoUri,
   title,
-  comments,
   location,
+  locationTitle,
+  comments = 0,
   likes,
 }) => {
 
@@ -17,7 +17,7 @@ export const Card = ({
 
   return (
     <View style={{ marginBottom: 34 }}>
-      <ImageBackground source={photo} style={styles.image} />
+      <ImageBackground source={{uri: photoUri}} style={styles.image} />
       <Text
         style={{
           color: "#212121",
@@ -76,6 +76,7 @@ export const Card = ({
             name="map-marker-outline"
             size={24}
             color="#BDBDBD"
+            onPress={()=> {navigation.navigate('Map', {location, locationTitle})}}
           />
           <Text
             style={{
@@ -86,7 +87,7 @@ export const Card = ({
               marginLeft: 6,
             }}
           >
-            {location}
+            {locationTitle}
           </Text>
         </View>
       </View>
