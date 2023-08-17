@@ -1,29 +1,62 @@
 import { View, StyleSheet, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import userPhoto from "../assets/images/User_Photo.jpg";
-import { useState } from "react";
+import defaultAvatar from "../assets/images/Profile_avatar.png";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "../redux/auth/selectors";
+import * as ImagePicker from 'expo-image-picker';
+import {updateUser} from "../redux/auth/operations"
+
 
 export const Avatar = () => {
-  const [isPhotoLoaded, setIsPhotoLoaded] = useState(true);
+  
+  const [avatar, setAvatar] = useState(null);
+
+  const user = useSelector(getUser);
+  console.log(user)
+  const dispatch = useDispatch()
+
+  useEffect(()=> {
+    if (user.photo) {
+      setAvatar(user.photo)
+    }  
+    
+  }, [])
+
+  
+  const changeAvatar = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      allowsMultipleSelection: false,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+     
+      setAvatar(result.assets[0].uri);
+      dispatch(updateUser({photoURL: result.assets[0].uri}))
+    }
+  };
 
   return (
     <View style={styles.avatar}>
-      {isPhotoLoaded ? (
-        <View>
-          <Image style={styles.userPhoto} source={userPhoto}></Image>
-          <AntDesign
-            name="closecircleo"
-            style={styles.icon}
-            size={25}
-            color="grey"
-          />
-        </View>
+      <Image style={styles.userPhoto} source={avatar ? {uri:avatar} : defaultAvatar}></Image>
+      {avatar ? (
+        <AntDesign
+          name="closecircleo"
+          style={styles.icon}
+          size={25}
+          color="grey"
+          onPress={changeAvatar}
+        />
       ) : (
         <AntDesign
           style={styles.icon}
           name="pluscircleo"
           size={25}
           color="#FF6C00"
+          onPress={changeAvatar}
         />
       )}
     </View>
@@ -53,7 +86,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: -13,
     bottom: 20,
-    backgroundColor:'#ffffff',
+    backgroundColor: "#ffffff",
     borderRadius: 50,
   },
 });

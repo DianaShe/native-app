@@ -1,8 +1,11 @@
-import { TextInput, View, StyleSheet, Pressable, Text } from "react-native";
+import { TextInput, View, StyleSheet, Pressable, Text, Alert } from "react-native";
 import { SubmitButton } from "./SubmitButton";
 import { IsAccount } from "./IsAccount";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { logIn } from "../redux/auth/operations";
+import { useDispatch } from "react-redux";
+import { getRealPhotoURL } from "../services/uploadFile";
 
 export const LoginForm = () => {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
@@ -12,12 +15,19 @@ export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   const navigation = useNavigation();
+  const dispatch = useDispatch()
 
   const handleLogIn = () => {
-    console.log({email, password})
-    setEmail('')
-    setPassword('')
-    navigation.navigate('Home')
+    dispatch(logIn({email, password})).then((res)=> {
+      if (res.type === "auth/login/fulfilled") {
+        setEmail("");
+        setPassword("");
+        navigation.navigate("Home");
+      } else {
+       Alert.alert(
+      'Логін або пароль невірний')}
+    })
+
   }
 
   const handleFocus = (name) => {

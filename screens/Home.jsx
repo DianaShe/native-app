@@ -4,6 +4,8 @@ import { CreatePostsScreen } from "./CreatePostsScreen";
 import { PostsScreen } from "./PostsScreen";
 import Profile from "./ProfileScreen";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/auth/operations";
 
 
 
@@ -11,6 +13,7 @@ function Home() {
   const Tabs = createBottomTabNavigator();
   
   const navigation = useNavigation();
+  const dispatch = useDispatch()
 
   return (
     <Tabs.Navigator
@@ -62,7 +65,9 @@ function Home() {
           title: "Публікації",
           headerRight: () => (
             <MaterialIcons name="logout" size={24} color="#BDBDBD" style={{marginRight: 10}}
-            onPress={() => navigation.navigate('Login')}/>
+            onPress={() => {
+              dispatch(logOut)
+              navigation.navigate('Login')}}/>
           ),
         }}
       />

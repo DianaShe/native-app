@@ -1,5 +1,4 @@
 import {
-  ImageBackground,
   Image,
   Pressable,
   StyleSheet,
@@ -9,6 +8,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import {
   MaterialIcons,
@@ -17,17 +18,20 @@ import {
 } from "@expo/vector-icons";
 
 import { useState, useEffect } from "react";
-import { SubmitButton } from "../components/SubmitButton";
 import { useNavigation } from "@react-navigation/native";
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-
 import * as Location from "expo-location";
+import * as ImagePicker from 'expo-image-picker';
+import { useDispatch, useSelector } from "react-redux";
+import { addPost } from "../redux/posts/operations";
+import { getUser } from "../redux/auth/selectors";
+import { SubmitButton } from "../components/SubmitButton";
+import { getIsLoading } from "../redux/posts/selectors";
 
 export const CreatePostsScreen = () => {
   const [photoUri, setPhotoUri] = useState("");
   const [title, setTitle] = useState("");
-  const [location, setLocation] = useState(null);
   const [locationTitle, setLocationTitle] = useState("");
   const navigation = useNavigation();
   const [type, setType] = useState(CameraType.back);
@@ -36,9 +40,12 @@ export const CreatePostsScreen = () => {
   const [libraryPermission, requestLibraryPermission] =
     MediaLibrary.usePermissions();
   const [cameraRef, setCameraRef] = useState(null);
-  const [isPhotoLoaded, setIsPhotoLoaded] = useState(false);
   const [status, requestLocationPermission] =
     Location.useBackgroundPermissions();
+
+  const dispatch = useDispatch();
+  const user = useSelector(getUser);
+  const isLoading = useSelector(getIsLoading)
 
   useEffect(() => {
     requestCameraPermission();
@@ -49,7 +56,7 @@ export const CreatePostsScreen = () => {
     requestLocationPermission();
 
     if (!status.granted) {
-      console.log("no location permission");
+      return Alert.alert("Немає дозволу на визначення місцезнаходження");
     }
 
     const currentLocation = await Location.getCurrentPositionAsync();
@@ -57,17 +64,19 @@ export const CreatePostsScreen = () => {
       latitude: currentLocation.coords.latitude,
       longitude: currentLocation.coords.longitude,
     };
-    
-    setLocation(coords);
-    
+
     if (!title || !locationTitle) {
-      return;
+      return Alert.alert("Вкажіть назву та місцевість");
     }
-    navigation.navigate("Posts", { photoUri, title, location, locationTitle });
-    setPhotoUri("");
-    // setLocation("");
-    setTitle("");
-    setLocationTitle("");
+
+    dispatch(
+      addPost({ photoUri, title, location: coords, locationTitle, author: user.id, likes: [], comments: [] })
+    ).then(() => { 
+      navigation.navigate("Posts");
+      setPhotoUri("");
+      setTitle("");
+      setLocationTitle("");
+    });
   };
 
   const makeCameraPhoto = async () => {
@@ -82,65 +91,82 @@ export const CreatePostsScreen = () => {
     }
   };
 
+  const choosePhoto = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      allowsMultipleSelection: false,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+     setPhotoUri(result.assets[0].uri)
+    }
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      { isLoading ? <ActivityIndicator size="large" color="#FF6C00" style={{flex:1}}/> :
       <KeyboardAvoidingView
-        style={{ flex: 1, paddingHorizontal: 16, backgroundColor: "#fff" }}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
-        <View style={styles.wrapper}>
-          <View style={styles.imageContainer}>
-            {photoUri ? (
-              <Image source={{ uri: photoUri }} style={styles.image} />
-            ) : (
-              <Camera
-                style={styles.image}
-                type={type}
-                ref={setCameraRef}
-              ></Camera>
-            )}
-          </View>
-
-          <Pressable style={styles.iconContainer}>
-            <MaterialIcons
-              style={styles.icon}
-              name="photo-camera"
-              size={24}
-              color="#BDBDBD"
-              onPress={makeCameraPhoto}
-            />
-          </Pressable>
-          <Text style={styles.label}>
-            {photoUri ? "Редагувати фото" : "Завантажте фото"}
-          </Text>
+      style={{ flex: 1, paddingHorizontal: 16, backgroundColor: "#fff" }}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+    >
+      
+      <View style={styles.wrapper}>
+        <View style={styles.imageContainer}>
+          {photoUri ? (
+            <Image source={{ uri: photoUri }} style={styles.image} />
+          ) : (
+            <Camera
+              style={styles.image}
+              type={type}
+              ref={setCameraRef}
+            ></Camera>
+          )}
         </View>
-        <TextInput
-          style={[styles.input, { fontFamily: "Roboto_500Medium" }]}
-          placeholder="Назва..."
-          onChangeText={setTitle}
-          value={title}
-        />
-        <View style={{}}>
-          <TextInput
-            style={[styles.input, { paddingLeft: 28 }]}
-            placeholder="Місцевість..."
-            onChangeText={setLocationTitle}
-            value={locationTitle}
-          />
-          <MaterialCommunityIcons
-            style={styles.iconMap}
-            name="map-marker-outline"
+
+        <Pressable style={styles.iconContainer}>
+          <MaterialIcons
+            style={styles.icon}
+            name="photo-camera"
             size={24}
             color="#BDBDBD"
+            onPress={makeCameraPhoto}
           />
-        </View>
-
-        <SubmitButton text="Опублікувати" onPress={handleSubmit} />
-
-        <Pressable style={styles.buttonDelete}>
-          <AntDesign name="delete" size={24} color="#BDBDBD" />
         </Pressable>
-      </KeyboardAvoidingView>
+        <Text style={styles.label} onPress={choosePhoto}>
+          {photoUri ? "Редагувати фото" : "Завантажте фото"}
+        </Text>
+      </View>
+      <TextInput
+        style={[styles.input, { fontFamily: "Roboto_500Medium" }]}
+        placeholder="Назва..."
+        onChangeText={setTitle}
+        value={title}
+      />
+      <View style={{}}>
+        <TextInput
+          style={[styles.input, { paddingLeft: 28 }]}
+          placeholder="Місцевість..."
+          onChangeText={setLocationTitle}
+          value={locationTitle}
+        />
+        <MaterialCommunityIcons
+          style={styles.iconMap}
+          name="map-marker-outline"
+          size={24}
+          color="#BDBDBD"
+        />
+      </View>
+
+      <SubmitButton text="Опублікувати" onPress={handleSubmit} />
+
+      <Pressable style={styles.buttonDelete}>
+        <AntDesign name="delete" size={24} color="#BDBDBD" />
+      </Pressable>
+      
+    </KeyboardAvoidingView>}
+      
     </TouchableWithoutFeedback>
   );
 };

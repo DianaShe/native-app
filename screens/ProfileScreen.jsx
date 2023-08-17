@@ -1,54 +1,59 @@
-import React from 'react'
-import { Text, View, ImageBackground, FlatList, StyleSheet } from 'react-native'
-import bgImage from '../assets/images/Photo_BG.jpg'
-import { Avatar } from '../components/Avatar'
-import { Card } from '../components/Card'
-import examplePhoto from '../assets/images/Rectangle23.jpg'
-
-
+import {
+  Text,
+  View,
+  ImageBackground,
+  FlatList,
+  StyleSheet,
+} from "react-native";
+import { useSelector } from "react-redux";
+import bgImage from "../assets/images/Photo_BG.jpg";
+import { Avatar } from "../components/Avatar";
+import { Card } from "../components/Card";
+import { getUser } from "../redux/auth/selectors";
+import { getPosts } from "../redux/posts/selectors";
 
 function ProfileScreen() {
+  const user = useSelector(getUser);
+  const posts = useSelector(getPosts).filter((post) => post.author === user.id);
+
   return (
-    <View style={{
-      flex: 1,
-      backgroundColor: "#fff",
-      
-
-    }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#fff",
+      }}
+    >
       <ImageBackground
-          source={bgImage}
-          resizeMode="cover"
-          style={{
-            flex: 1,
-            
-          }}
-        >
-          <View style={styles.wrapper}>
-            <Avatar />
-            <Text style={styles.title}>Natali Romanova</Text>
-            <FlatList
-            data={[{ title: 'Ліс', location: 'here', comments: 6, likes: 153 }]}
-            renderItem={({item}) => <Card {...item}/>}
-            />
-
-          </View>
-        </ImageBackground>
-      </View>
-  )
+        source={bgImage}
+        resizeMode="cover"
+        style={{
+          flex: 1,
+        }}
+      >
+        <View style={styles.wrapper}>
+          <Avatar />
+          <Text style={styles.title}>{user.login}</Text>
+          <FlatList
+            data={posts}
+            renderItem={({ item }) => <Card {...item} />}
+          />
+        </View>
+      </ImageBackground>
+    </View>
+  );
 }
 
-export default ProfileScreen
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: "#fff",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    height: '80%',
+    height: "80%",
     paddingLeft: 16,
     paddingRight: 16,
-    marginTop: 'auto'
-    
+    marginTop: "auto",
   },
   title: {
     marginTop: 92,
@@ -59,4 +64,4 @@ const styles = StyleSheet.create({
     color: "#212121",
     alignSelf: "center",
   },
-})
+});

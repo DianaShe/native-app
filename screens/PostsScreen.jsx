@@ -5,33 +5,37 @@ import {
   FlatList,
   Image
 } from "react-native";
-import userPhoto from '../assets/images/User_Photo.jpg'
+import defaultAvatar from "../assets/images/Profile_avatar.png";
 import { Card } from "../components/Card";
 import { useRoute } from "@react-navigation/native";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../redux/auth/selectors";
+import { fetchPosts } from "../redux/posts/operations";
+import { getPosts } from "../redux/posts/selectors";
 
 export const PostsScreen = () => {
-  const [posts, setPosts] = useState([])
-  const route = useRoute()
+  // const [posts, setPosts] = useState([])
+  // const [login, setLogin] = useState(null)
+  // const [email, setEmail] = useState('')
+  // const route = useRoute()
 
-  useEffect(()=> {
-    console.log(route.params)
-    if (route.params) {
-      console.log(route.params.location)
-      const {params: {photoUri, title, location, locationTitle}} = route
-    setPosts([...posts, {photoUri, title, location, locationTitle}])
-    }
-  }, [route.params])
+  const dispatch = useDispatch()
 
-  
- 
+  useEffect( ()=> {
+    dispatch(fetchPosts())
+  }, [dispatch])
+
+  const user = useSelector(getUser);
+  const posts = useSelector(getPosts)
+
   return (
     <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: 16,}}>
       <View style={styles.userWrapper}>
-        <Image style={styles.userPhoto} source={userPhoto}></Image>
+        <Image style={styles.userPhoto} source={user.photo ? {uri: user.photo} : defaultAvatar}></Image>
         <View >
-            <Text style={styles.userName}>User Name</Text>
-            <Text style={styles.userMail}>Email</Text>
+            <Text style={styles.userName}>{user.login}</Text>
+            <Text style={styles.userMail}>{user.email}</Text>
         </View>
       </View>
       <FlatList

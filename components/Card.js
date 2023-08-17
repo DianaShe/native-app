@@ -1,23 +1,28 @@
-import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-
+import { useDispatch, useSelector } from "react-redux";
+import { manageLike } from "../redux/posts/operations";
+import { getUser } from "../redux/auth/selectors";
 
 export const Card = ({
-  photoUri,
+  photo,
   title,
   location,
   locationTitle,
-  comments = 0,
-  likes,
+  comments = [],
+  likes = [],
+  id: photoId,
 }) => {
 
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const user = useSelector(getUser)
 
   return (
     <View style={{ marginBottom: 34 }}>
-      <ImageBackground source={{uri: photoUri}} style={styles.image} />
+      
+      <ImageBackground source={{uri: photo}} style={styles.image} />
       <Text
         style={{
           color: "#212121",
@@ -32,19 +37,19 @@ export const Card = ({
       </Text>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <View style={{ flexDirection: "row" }}>
-          {comments === 0 ? (
+          {comments.length === 0 ? (
             <MaterialCommunityIcons
               name="message-reply-outline"
               size={24}
               color="#BDBDBD"
-              onPress={() => navigation.navigate('Comments')}
+              onPress={() => navigation.navigate('Comments', {photo, photoId})}
             />
           ) : (
             <MaterialCommunityIcons
               name="message-reply"
               size={24}
               color="#FF6C00"
-              onPress={() => navigation.navigate('Comments')}
+              onPress={() => navigation.navigate('Comments', {photo, photoId})}
             />
           )}
 
@@ -57,9 +62,9 @@ export const Card = ({
               marginLeft: 6,
             }}
           >
-            {comments}
+            {comments.length}
           </Text>
-          {likes && <Feather name="thumbs-up" size={24} color="#FF6C00" />}
+          <Feather name="thumbs-up" size={24} color="#FF6C00" onPress={() => {dispatch(manageLike({photoId, userId: user.id}))}}/>
           <Text
             style={{
               color: "#212121",
@@ -68,7 +73,7 @@ export const Card = ({
               marginLeft: 6,
             }}
           >
-            {likes}
+            {likes.length}
           </Text>
         </View>
         <View style={{ flexDirection: "row" }}>

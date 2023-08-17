@@ -11,6 +11,9 @@ import { Avatar } from "./Avatar";
 import { IsAccount } from "./IsAccount";
 import { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
+import { register } from "../redux/auth/operations";
+import { useDispatch } from "react-redux";
+import { Ionicons } from '@expo/vector-icons';
 
 export const RegistrationForm = () => {
   const [isLoginFocused, setIsLoginFocused] = useState(false)
@@ -21,14 +24,32 @@ export const RegistrationForm = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false)
 
-  const handleRegister = () => {
-    console.log({login, email, password})
-    setLogin('')
-    setEmail('')
-    setPassword('')
-  }
-
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const handleRegister = () => {
+    if (email === "" || password === "") {
+      return Alert.alert(
+        "Будь ласка, заповніть всі поля"
+      );
+    }
+    dispatch(
+      register({ login, email, password })
+    ).then((res) => {
+      
+      if (res.error) {
+        return Alert.alert(
+          "Помилка реєстрації. Спробуйте пізніше"
+        );
+      }
+      setLogin('');
+      setEmail('');
+      setPassword('');
+      navigation.navigate("Home")
+    }
+      )
+      
+  }
 
   return (
     
