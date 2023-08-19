@@ -1,5 +1,6 @@
 export function handleLogInFulfilled(state, action) {
     state.user = action.payload;
+    console.log("in habdleLogIn " +state.user.displayName)
     state.isLoggedIn = true;
     
   }

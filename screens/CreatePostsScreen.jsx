@@ -33,6 +33,7 @@ export const CreatePostsScreen = () => {
   const [photoUri, setPhotoUri] = useState("");
   const [title, setTitle] = useState("");
   const [locationTitle, setLocationTitle] = useState("");
+  // const [location, setLocation] = useState(null)
   const navigation = useNavigation();
   const [type, setType] = useState(CameraType.back);
   const [cameraPermission, requestCameraPermission] =
@@ -56,21 +57,32 @@ export const CreatePostsScreen = () => {
     requestLocationPermission();
 
     if (!status.granted) {
-      return Alert.alert("Немає дозволу на визначення місцезнаходження");
+     Alert.alert("Немає дозволу на визначення місцезнаходження");
     }
 
-    const currentLocation = await Location.getCurrentPositionAsync();
-    const coords = {
+    let location = null
+
+    if (status.granted) {
+      const currentLocation = await Location.getCurrentPositionAsync();
+      const coords = {
       latitude: currentLocation.coords.latitude,
       longitude: currentLocation.coords.longitude,
     };
+    location = coords
+    }
+
+    // const currentLocation = await Location.getCurrentPositionAsync();
+    // const coords = {
+    //   latitude: currentLocation.coords.latitude,
+    //   longitude: currentLocation.coords.longitude,
+    // };
 
     if (!title || !locationTitle) {
       return Alert.alert("Вкажіть назву та місцевість");
     }
 
     dispatch(
-      addPost({ photoUri, title, location: coords, locationTitle, author: user.id, likes: [], comments: [] })
+      addPost({ photoUri, title, location, locationTitle, author: user.id, likes: [], comments: [] })
     ).then(() => { 
       navigation.navigate("Posts");
       setPhotoUri("");
@@ -166,6 +178,7 @@ export const CreatePostsScreen = () => {
       </Pressable>
       
     </KeyboardAvoidingView>}
+    
       
     </TouchableWithoutFeedback>
   );

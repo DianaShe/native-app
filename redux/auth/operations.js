@@ -14,6 +14,9 @@ const updateUserProfile = async (update) => {
   if (user) {
     try {
        await updateProfile(user, update);
+       console.log(
+        
+        user.displayName)
        
       return {
         email: user.email,
