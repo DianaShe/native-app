@@ -1,7 +1,6 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
   updateProfile,
   signOut,
 } from "firebase/auth";
@@ -14,9 +13,6 @@ const updateUserProfile = async (update) => {
   if (user) {
     try {
        await updateProfile(user, update);
-       console.log(
-        
-        user.displayName)
        
       return {
         email: user.email,
@@ -55,7 +51,7 @@ export const logIn = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   const { email, password} = user;
   try {
     const {user} = await signInWithEmailAndPassword(auth, email, password);
-    console.log(user)
+    
     return {
       id: user.uid,
       email,

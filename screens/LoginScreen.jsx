@@ -5,13 +5,24 @@ import {
   Keyboard,
   ActivityIndicator,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { LoginForm } from "../components/LoginForm";
 import bgImage from "../assets/images/Photo_BG.jpg";
 import { useSelector } from "react-redux";
 import { getAuthInProgress } from "../redux/auth/selectors";
+import { auth } from "../config";
+import { useEffect } from "react";
 
 export const LoginScreen = () => {
   const authInProgress = useSelector(getAuthInProgress);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      user && navigation.navigate("Home");
+    });
+  }, []);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       {authInProgress ? (

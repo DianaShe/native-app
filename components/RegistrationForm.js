@@ -13,7 +13,6 @@ import { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { register } from "../redux/auth/operations";
 import { useDispatch } from "react-redux";
-import { Ionicons } from '@expo/vector-icons';
 
 export const RegistrationForm = () => {
   const [isLoginFocused, setIsLoginFocused] = useState(false)

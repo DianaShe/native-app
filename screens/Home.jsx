@@ -7,8 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { logOut } from "../redux/auth/operations";
 
-
-
 function Home() {
   const Tabs = createBottomTabNavigator();
   
@@ -39,7 +37,6 @@ function Home() {
         },
         tabBarStyle: {
           height: 83,
-          // backgroundColor: 'fff'
         },
         tabBarInactiveBackgroundColor: "#FFF",
         tabBarActiveTintColor: "rgba(255, 255, 255, 1)",

@@ -7,18 +7,13 @@ import {
 } from "react-native";
 import defaultAvatar from "../assets/images/Profile_avatar.png";
 import { Card } from "../components/Card";
-import { useRoute } from "@react-navigation/native";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../redux/auth/selectors";
 import { fetchPosts } from "../redux/posts/operations";
 import { getPosts } from "../redux/posts/selectors";
 
 export const PostsScreen = () => {
-  // const [posts, setPosts] = useState([])
-  // const [login, setLogin] = useState(null)
-  // const [email, setEmail] = useState('')
-  // const route = useRoute()
 
   const dispatch = useDispatch()
 

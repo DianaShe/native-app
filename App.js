@@ -15,8 +15,6 @@ import { LoginScreen } from "./screens/LoginScreen";
 import Home from "./screens/Home";
 import MapScreen from "./screens/MapScreen";
 import { CommentsScreen } from "./screens/CommentsScreen";
-import { useEffect, useState } from "react";
-import { auth } from "./config";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,14 +22,6 @@ export default function App() {
     Roboto_500Medium,
     Roboto_700Bold,
   });
-
-  const [route, setRoute] = useState('Login');
-
-  useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      setRoute(user ? "Home" : "Login");
-    });
-  }, []);
 
   if (!fontsLoaded) {
     return null;
@@ -43,7 +33,7 @@ export default function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <NavigationContainer>
-          <MainStack.Navigator initialRouteName={route}>
+          <MainStack.Navigator initialRouteName="Login">
             <MainStack.Screen
               name="Registration"
               component={RegistrationScreen}

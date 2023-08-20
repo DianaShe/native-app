@@ -2,9 +2,6 @@ import {
   View,
   ImageBackground,
   StyleSheet,
-  Image,
-  Text,
-  FlatList,
   ScrollView,
   TextInput,
   SafeAreaView,
@@ -31,7 +28,7 @@ export const CommentsScreen = ({ route }) => {
   const isLoading = useSelector(getIsLoading);
 
   const comments = posts.find(({ id }) => id === photoId)?.comments ?? [];
- 
+
   const handleSubmit = () => {
     const postComment = {
       text: comment,
@@ -39,7 +36,7 @@ export const CommentsScreen = ({ route }) => {
       author: { id: auth.currentUser.uid, avatar: auth.currentUser.photoURL },
       id: photoId,
     };
-    
+
     dispatch(addComment(postComment));
     setComment("");
     Keyboard.dismiss();

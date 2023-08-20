@@ -22,7 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../redux/posts/operations";
 import { getUser } from "../redux/auth/selectors";
@@ -46,7 +46,7 @@ export const CreatePostsScreen = () => {
 
   const dispatch = useDispatch();
   const user = useSelector(getUser);
-  const isLoading = useSelector(getIsLoading)
+  const isLoading = useSelector(getIsLoading);
 
   useEffect(() => {
     requestCameraPermission();
@@ -57,33 +57,35 @@ export const CreatePostsScreen = () => {
     requestLocationPermission();
 
     if (!status.granted) {
-     Alert.alert("Немає дозволу на визначення місцезнаходження");
+      Alert.alert("Немає дозволу на визначення місцезнаходження");
     }
 
-    let location = null
+    let location = null;
 
     if (status.granted) {
       const currentLocation = await Location.getCurrentPositionAsync();
       const coords = {
-      latitude: currentLocation.coords.latitude,
-      longitude: currentLocation.coords.longitude,
-    };
-    location = coords
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+      };
+      location = coords;
     }
-
-    // const currentLocation = await Location.getCurrentPositionAsync();
-    // const coords = {
-    //   latitude: currentLocation.coords.latitude,
-    //   longitude: currentLocation.coords.longitude,
-    // };
 
     if (!title || !locationTitle) {
       return Alert.alert("Вкажіть назву та місцевість");
     }
 
     dispatch(
-      addPost({ photoUri, title, location, locationTitle, author: user.id, likes: [], comments: [] })
-    ).then(() => { 
+      addPost({
+        photoUri,
+        title,
+        location,
+        locationTitle,
+        author: user.id,
+        likes: [],
+        comments: [],
+      })
+    ).then(() => {
       navigation.navigate("Posts");
       setPhotoUri("");
       setTitle("");
@@ -112,74 +114,73 @@ export const CreatePostsScreen = () => {
     });
 
     if (!result.canceled) {
-     setPhotoUri(result.assets[0].uri)
+      setPhotoUri(result.assets[0].uri);
     }
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      { isLoading ? <ActivityIndicator size="large" color="#FF6C00" style={{flex:1}}/> :
-      <KeyboardAvoidingView
-      style={{ flex: 1, paddingHorizontal: 16, backgroundColor: "#fff" }}
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-    >
-      
-      <View style={styles.wrapper}>
-        <View style={styles.imageContainer}>
-          {photoUri ? (
-            <Image source={{ uri: photoUri }} style={styles.image} />
-          ) : (
-            <Camera
-              style={styles.image}
-              type={type}
-              ref={setCameraRef}
-            ></Camera>
-          )}
-        </View>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#FF6C00" style={{ flex: 1 }} />
+      ) : (
+        <KeyboardAvoidingView
+          style={{ flex: 1, paddingHorizontal: 16, backgroundColor: "#fff" }}
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
+          <View style={styles.wrapper}>
+            <View style={styles.imageContainer}>
+              {photoUri ? (
+                <Image source={{ uri: photoUri }} style={styles.image} />
+              ) : (
+                <Camera
+                  style={styles.image}
+                  type={type}
+                  ref={setCameraRef}
+                ></Camera>
+              )}
+            </View>
 
-        <Pressable style={styles.iconContainer}>
-          <MaterialIcons
-            style={styles.icon}
-            name="photo-camera"
-            size={24}
-            color="#BDBDBD"
-            onPress={makeCameraPhoto}
+            <Pressable style={styles.iconContainer}>
+              <MaterialIcons
+                style={styles.icon}
+                name="photo-camera"
+                size={24}
+                color="#BDBDBD"
+                onPress={makeCameraPhoto}
+              />
+            </Pressable>
+            <Text style={styles.label} onPress={choosePhoto}>
+              {photoUri ? "Редагувати фото" : "Завантажте фото"}
+            </Text>
+          </View>
+          <TextInput
+            style={[styles.input, { fontFamily: "Roboto_500Medium" }]}
+            placeholder="Назва..."
+            onChangeText={setTitle}
+            value={title}
           />
-        </Pressable>
-        <Text style={styles.label} onPress={choosePhoto}>
-          {photoUri ? "Редагувати фото" : "Завантажте фото"}
-        </Text>
-      </View>
-      <TextInput
-        style={[styles.input, { fontFamily: "Roboto_500Medium" }]}
-        placeholder="Назва..."
-        onChangeText={setTitle}
-        value={title}
-      />
-      <View style={{}}>
-        <TextInput
-          style={[styles.input, { paddingLeft: 28 }]}
-          placeholder="Місцевість..."
-          onChangeText={setLocationTitle}
-          value={locationTitle}
-        />
-        <MaterialCommunityIcons
-          style={styles.iconMap}
-          name="map-marker-outline"
-          size={24}
-          color="#BDBDBD"
-        />
-      </View>
+          <View style={{}}>
+            <TextInput
+              style={[styles.input, { paddingLeft: 28 }]}
+              placeholder="Місцевість..."
+              onChangeText={setLocationTitle}
+              value={locationTitle}
+            />
+            <MaterialCommunityIcons
+              style={styles.iconMap}
+              name="map-marker-outline"
+              size={24}
+              color="#BDBDBD"
+            />
+          </View>
 
-      <SubmitButton text="Опублікувати" onPress={handleSubmit} />
+          <SubmitButton text="Опублікувати" onPress={handleSubmit} />
 
-      <Pressable style={styles.buttonDelete}>
-        <AntDesign name="delete" size={24} color="#BDBDBD" />
-      </Pressable>
-      
-    </KeyboardAvoidingView>}
-    
-      
+          <Pressable style={styles.buttonDelete}>
+            <AntDesign name="delete" size={24} color="#BDBDBD" />
+          </Pressable>
+        </KeyboardAvoidingView>
+      )}
     </TouchableWithoutFeedback>
   );
 };

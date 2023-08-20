@@ -1,8 +1,6 @@
 export function handleLogInFulfilled(state, action) {
     state.user = action.payload;
-    console.log("in habdleLogIn " +state.user.displayName)
     state.isLoggedIn = true;
-    
   }
 
 export function handleAuthRejected(state, action) {
@@ -11,7 +9,7 @@ export function handleAuthRejected(state, action) {
     state.authInProgress = false;
   }
   
-export function handleLogOutFulfilled(state, action) {
+export function handleLogOutFulfilled(state) {
     state.user.email = null;
     state.user.login = null;
     state.isLoggedIn = false;
@@ -20,7 +18,6 @@ export function handleLogOutFulfilled(state, action) {
 export function handleUpdateUserFulfilled(state, {payload}) {
     state.user = payload;
     state.isLoggedIn = true;
-    
   }
 
 export function handleAuthPending (state) {
