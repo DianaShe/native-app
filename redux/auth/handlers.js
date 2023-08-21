@@ -9,9 +9,8 @@ export function handleAuthRejected(state, action) {
     state.authInProgress = false;
   }
   
-export function handleLogOutFulfilled(state) {
-    state.user.email = null;
-    state.user.login = null;
+export function handleLogOutFulfilled(state, {payload}) {
+    state.user = payload;
     state.isLoggedIn = false;
   }
   

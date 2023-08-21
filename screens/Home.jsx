@@ -9,9 +9,9 @@ import { logOut } from "../redux/auth/operations";
 
 function Home() {
   const Tabs = createBottomTabNavigator();
-  
+
   const navigation = useNavigation();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   return (
     <Tabs.Navigator
@@ -52,7 +52,7 @@ function Home() {
           fontSize: 17,
           fontFamily: "Roboto_500Medium",
         },
-        headerTitleAlign: 'center',
+        headerTitleAlign: "center",
       })}
     >
       <Tabs.Screen
@@ -61,10 +61,16 @@ function Home() {
         options={{
           title: "Публікації",
           headerRight: () => (
-            <MaterialIcons name="logout" size={24} color="#BDBDBD" style={{marginRight: 10}}
-            onPress={() => {
-              dispatch(logOut)
-              navigation.navigate('Login')}}/>
+            <MaterialIcons
+              name="logout"
+              size={24}
+              color="#BDBDBD"
+              style={{ marginRight: 10 }}
+              onPress={() => {
+                dispatch(logOut());
+                navigation.navigate("Login");
+              }}
+            />
           ),
         }}
       />
@@ -76,16 +82,20 @@ function Home() {
           headerLeft: () => (
             <AntDesign
               name="arrowleft"
-              style={{marginLeft: 16}}
+              style={{ marginLeft: 16 }}
               size={24}
               color="#212121"
-              onPress={() => navigation.navigate('Posts')}
+              onPress={() => navigation.navigate("Posts")}
             />
           ),
           tabBarStyle: { display: "none" },
         }}
       />
-      <Tabs.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
+      <Tabs.Screen
+        name="Profile"
+        component={Profile}
+        options={{ headerShown: false }}
+      />
     </Tabs.Navigator>
   );
 }
