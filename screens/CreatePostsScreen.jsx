@@ -56,20 +56,23 @@ export const CreatePostsScreen = () => {
   const handleSubmit = async () => {
     requestLocationPermission();
 
-    if (!status.granted) {
-      Alert.alert("Немає дозволу на визначення місцезнаходження");
-    }
+    // if (!status.granted) {
+    //   console.log("Немає дозволу на визначення місцезнаходження");
+    // }
 
-    let location = null;
+    let coords = null
 
-    if (status.granted) {
+    try {
       const currentLocation = await Location.getCurrentPositionAsync();
-      const coords = {
+      coords = {
         latitude: currentLocation.coords.latitude,
         longitude: currentLocation.coords.longitude,
       };
-      location = coords;
+    
+    } catch (error) {
+      console.log("Немає дозволу на визначення місцезнаходження" + error);
     }
+     
 
     if (!title || !locationTitle) {
       return Alert.alert("Вкажіть назву та місцевість");
@@ -79,7 +82,7 @@ export const CreatePostsScreen = () => {
       addPost({
         photoUri,
         title,
-        location,
+        location:coords,
         locationTitle,
         author: user.id,
         likes: [],
