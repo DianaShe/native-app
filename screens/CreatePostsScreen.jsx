@@ -41,8 +41,8 @@ export const CreatePostsScreen = () => {
   const [libraryPermission, requestLibraryPermission] =
     MediaLibrary.usePermissions();
   const [cameraRef, setCameraRef] = useState(null);
-  const [status, requestLocationPermission] =
-    Location.useBackgroundPermissions();
+  // const [status, requestLocationPermission] =
+  //   Location.useBackgroundPermissions();
 
   const dispatch = useDispatch();
   const user = useSelector(getUser);
@@ -54,7 +54,7 @@ export const CreatePostsScreen = () => {
   }, []);
 
   const handleSubmit = async () => {
-    requestLocationPermission();
+    // requestLocationPermission();
 
     // if (!status.granted) {
     //   console.log("Немає дозволу на визначення місцезнаходження");
@@ -62,17 +62,26 @@ export const CreatePostsScreen = () => {
 
     let coords = null
 
-    try {
-      const currentLocation = await Location.getCurrentPositionAsync();
-      coords = {
-        latitude: currentLocation.coords.latitude,
-        longitude: currentLocation.coords.longitude,
-      };
+    // try {
+    //   const currentLocation = await Location.getCurrentPositionAsync();
+    //   coords = {
+    //     latitude: currentLocation.coords.latitude,
+    //     longitude: currentLocation.coords.longitude,
+    //   };
     
-    } catch (error) {
-      console.log("Немає дозволу на визначення місцезнаходження" + error);
-    }
+    // } catch (error) {
+    //   console.log("Немає дозволу на визначення місцезнаходження" + error);
+    // }
      
+    let { status } = await Location.requestForegroundPermissionsAsync();
+			if (status !== "granted") {
+        console.log("Немає дозволу на визначення місцезнаходження");
+			}
+			let currentLocation = await Location.getCurrentPositionAsync({});
+      coords = {
+            latitude: currentLocation.coords.latitude,
+            longitude: currentLocation.coords.longitude,
+          };
 
     if (!title || !locationTitle) {
       return Alert.alert("Вкажіть назву та місцевість");
